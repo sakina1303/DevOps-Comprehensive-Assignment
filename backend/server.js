@@ -15,7 +15,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Serve static frontend files
+app.use(express.static(path.join(__dirname, "../frontend/dist")));
+
+// API routes
 app.use("/api/users", userRoutes);
+
+// Catch-all route for SPA
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+});
 
 const PORT = process.env.PORT || 5000;
 
